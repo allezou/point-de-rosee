@@ -1,214 +1,339 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Point de Rosée">
+  <title>Point de Rosée & Aération - Séchage Chaux-Chanvre</title>
+  
+  <style>
+    :root {
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --primary: #2563eb;
+      
+      --status-ok-bg: #d1fae5;
+      --status-ok-border: #10b981;
+      --status-ok-text: #065f46;
+      
+      --status-warn-bg: #fef3c7;
+      --status-warn-border: #f59e0b;
+      --status-warn-text: #92400e;
+      
+      --status-danger-bg: #fee2e2;
+      --status-danger-border: #ef4444;
+      --status-danger-text: #991b1b;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom) 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 0 10px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 4px 0 0 0;
+    }
+
+    main {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 10px 30px 10px 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: #f9fafb;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .input-wrapper .unit {
+      position: absolute;
+      right: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .dp-result {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-color);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dp-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .verdict-card {
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .verdict-card.ok {
+      background-color: var(--status-ok-bg);
+      border-color: var(--status-ok-border);
+      color: var(--status-ok-text);
+    }
+
+    .verdict-card.warn {
+      background-color: var(--status-warn-bg);
+      border-color: var(--status-warn-border);
+      color: var(--status-warn-text);
+    }
+
+    .verdict-card.danger {
+      background-color: var(--status-danger-bg);
+      border-color: var(--status-danger-border);
+      color: var(--status-danger-text);
+    }
+
+    .verdict-badge {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .verdict-desc {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .explanation {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      background: rgba(255,255,255,0.6);
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="fr"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Point de Rosée - Chaux-Chanvre&lt;/title&gt;</p>
-<p class="p2"><span class="Apple-converted-space">  </span></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Configuration iOS PWA --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="apple-mobile-web-app-title" content="Rosée &amp; Aération"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="theme-color" content="#0f172a"&gt;</p>
-<p class="p2"><span class="Apple-converted-space">  </span></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Tailwind CSS via CDN --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p2"><span class="Apple-converted-space">  </span></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Icône SVG intégrée en Data URL pour l'écran d'accueil iOS --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="apple-touch-icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%233b82f6'&gt;&lt;rect width='512' height='512' rx='100' fill='%230f172a'/&gt;&lt;path d='M256 64C256 64 128 224 128 320C128 390.7 185.3 448 256 448C326.7 448 384 390.7 384 320C384 224 256 64 256 64Z' fill='%233b82f6'/&gt;&lt;/svg&gt;"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>/* Empêche le rebond du défilement sur iOS */</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-webkit-touch-callout: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-webkit-user-select: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>user-select: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-webkit-tap-highlight-color: transparent;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>input {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-webkit-user-select: auto !important;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>user-select: auto !important;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 font-sans antialiased pb-8"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- En-tête --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="w-full max-w-md pt-4 pb-2 text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1 class="text-2xl font-bold tracking-tight text-white flex items-center justify-center gap-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg class="w-7 h-7 text-blue-400" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M10 2S3 9.5 3 14a7 7 0 1014 0C17 9.5 10 2 10 2z"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Aération Chaux-Chanvre</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="text-xs text-slate-400 mt-1"&gt;Assistant de séchage par calcul du point de rosée&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Zone Principale --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="w-full max-w-md space-y-4 my-auto"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Section Intérieur --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-slate-800/80 backdrop-blur border border-slate-700/60 rounded-2xl p-4 shadow-lg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center mb-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-sm font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-1.5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;🏠&lt;/span&gt; Intérieur (Chambre / Pièce)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="dp-in" class="text-sm font-mono font-bold bg-slate-900/60 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-700"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>PR: -- °C</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="grid grid-cols-2 gap-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="temp-in" class="block text-xs text-slate-400 mb-1"&gt;Température (°C)&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="temp-in" step="0.1" value="18.5" inputmode="decimal"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="hum-in" class="block text-xs text-slate-400 mb-1"&gt;Humidité (%)&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="hum-in" step="1" min="0" max="100" value="79" inputmode="numeric"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Section Extérieur --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-slate-800/80 backdrop-blur border border-slate-700/60 rounded-2xl p-4 shadow-lg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center mb-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-sm font-semibold uppercase tracking-wider text-sky-400 flex items-center gap-1.5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;🌳&lt;/span&gt; Extérieur</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="dp-out" class="text-sm font-mono font-bold bg-slate-900/60 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-700"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>PR: -- °C</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="grid grid-cols-2 gap-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="temp-out" class="block text-xs text-slate-400 mb-1"&gt;Température (°C)&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="temp-out" step="0.1" value="16.8" inputmode="decimal"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-sky-500/50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label for="hum-out" class="block text-xs text-slate-400 mb-1"&gt;Humidité (%)&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="number" id="hum-out" step="1" min="0" max="100" value="96" inputmode="numeric"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-lg font-semibold text-white focus:outline-none focus:ring-2 focus:ring-sky-500/50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Carte de Résultat / Verdict --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="result-card" class="rounded-2xl p-5 border transition-all duration-300 shadow-xl text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="verdict-icon" class="text-4xl mb-2"&gt;--&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3 id="verdict-title" class="text-xl font-bold tracking-tight mb-2"&gt;--&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p id="verdict-desc" class="text-sm leading-relaxed opacity-90"&gt;--&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Note explicative pliante --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;details class="bg-slate-800/40 border border-slate-800 rounded-xl p-3 text-xs text-slate-400"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;summary class="cursor-pointer font-medium text-slate-300 select-none"&gt;Pourquoi se fier au Point de Rosée ?&lt;/summary&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="mt-2 leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>L'humidité relative (%) dépend fortement de la température. Le point de rosée mesure la quantité &lt;strong&gt;réelle&lt;/strong&gt; d'eau contenue dans l'air.<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="mt-1 leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Si le &lt;strong&gt;point de rosée extérieur est inférieur&lt;/strong&gt; au point de rosée intérieur, l'air extérieur contient moins d'eau en valeur absolue : aérer permettra d'évacuer l'humidité accumulée dans le chaux-chanvre.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/details&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Pied de page --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;footer class="w-full max-w-md text-center text-xs text-slate-500 pt-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>Outil d'aide au séchage des enduits et bétons de chaux</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Script des calculs --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Calcul du point de rosée (formule de Magnus-Tetens)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function calculateDewPoint(temp, rh) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (isNaN(temp) || isNaN(rh) || rh &lt;= 0) return null;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a = 17.27;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const b = 237.7;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const alpha = ((a * temp) / (b + temp)) + Math.log(rh / 100);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dewPoint = (b * alpha) / (a - alpha);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return dewPoint;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function updateCalculations() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const tempIn = parseFloat(document.getElementById('temp-in').value);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const humIn = parseFloat(document.getElementById('hum-in').value);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const tempOut = parseFloat(document.getElementById('temp-out').value);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const humOut = parseFloat(document.getElementById('hum-out').value);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dpIn = calculateDewPoint(tempIn, humIn);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dpOut = calculateDewPoint(tempOut, humOut);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dpInEl = document.getElementById('dp-in');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const dpOutEl = document.getElementById('dp-out');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const card = document.getElementById('result-card');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const icon = document.getElementById('verdict-icon');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const title = document.getElementById('verdict-title');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const desc = document.getElementById('verdict-desc');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (dpIn === null || dpOut === null) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>dpInEl.textContent = "PR: -- °C";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>dpOutEl.textContent = "PR: -- °C";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>card.className = "rounded-2xl p-5 border bg-slate-800 border-slate-700 text-slate-400 text-center";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>icon.textContent = "❓";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>title.textContent = "Données incomplètes";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>desc.textContent = "Veuillez saisir des températures et taux d'humidité valides.";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>dpInEl.textContent = `PR: ${dpIn.toFixed(1)} °C`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>dpOutEl.textContent = `PR: ${dpOut.toFixed(1)} °C`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const diff = dpIn - dpOut;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (diff &gt; 2) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// OUVRIR</p>
-<p class="p1"><span class="Apple-converted-space">        </span>card.className = "rounded-2xl p-5 border bg-emerald-950/80 border-emerald-500/50 text-emerald-100 shadow-emerald-950/50 shadow-lg text-center";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>icon.textContent = "🟢";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>title.textContent = "OUVREZ / AÉREZ";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>desc.textContent = `L'air extérieur est nettement plus sec en eau absolue (différence de ${diff.toFixed(1)} °C sur le point de rosée). Aérer accélère le séchage.`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else if (diff &gt;= -0.5 &amp;&amp; diff &lt;= 2) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// PRUDENCE</p>
-<p class="p1"><span class="Apple-converted-space">        </span>card.className = "rounded-2xl p-5 border bg-amber-950/80 border-amber-500/50 text-amber-100 shadow-amber-950/50 shadow-lg text-center";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>icon.textContent = "🟠";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>title.textContent = "PRUDENCE";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>desc.textContent = `Les points de rosée sont très proches (écart de ${diff.toFixed(1)} °C). L'aération aura peu d'effet sur le séchage.`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// NE PAS OUVRIR</p>
-<p class="p1"><span class="Apple-converted-space">        </span>card.className = "rounded-2xl p-5 border bg-rose-950/80 border-rose-500/50 text-rose-100 shadow-rose-950/50 shadow-lg text-center";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>icon.textContent = "🔴";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>title.textContent = "NE PAS AÉRER";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>desc.textContent = `L'air extérieur apporterait de l'humidité supplémentaire dans votre pièce (Point de rosée ext. plus élevé de ${Math.abs(diff).toFixed(1)} °C).`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Écouteurs d'événements sur les champs de saisie</p>
-<p class="p1"><span class="Apple-converted-space">    </span>['temp-in', 'hum-in', 'temp-out', 'hum-out'].forEach(id =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById(id).addEventListener('input', updateCalculations);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Lancement au chargement</p>
-<p class="p1"><span class="Apple-converted-space">    </span>updateCalculations();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+  <header>
+    <h1>Point de Rosée & Aération</h1>
+    <p>Aide au séchage du chaux-chanvre</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="card-title">🏠 Intérieur</div>
+      <div class="input-grid">
+        <div class="field">
+          <label for="temp-in">Température</label>
+          <div class="input-wrapper">
+            <input type="number" id="temp-in" step="0.1" value="18.5" inputmode="decimal">
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="hum-in">Humidité</label>
+          <div class="input-wrapper">
+            <input type="number" id="hum-in" step="1" min="0" max="100" value="79" inputmode="numeric">
+            <span class="unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="dp-result">
+        <span>Point de rosée int. :</span>
+        <span class="dp-value" id="dp-in-val">14.8 °C</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🌳 Extérieur</div>
+      <div class="input-grid">
+        <div class="field">
+          <label for="temp-out">Température</label>
+          <div class="input-wrapper">
+            <input type="number" id="temp-out" step="0.1" value="16.8" inputmode="decimal">
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="hum-out">Humidité</label>
+          <div class="input-wrapper">
+            <input type="number" id="hum-out" step="1" min="0" max="100" value="96" inputmode="numeric">
+            <span class="unit">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="dp-result">
+        <span>Point de rosée ext. :</span>
+        <span class="dp-value" id="dp-out-val">16.1 °C</span>
+      </div>
+    </div>
+
+    <div id="verdict-box" class="verdict-card danger">
+      <div id="verdict-badge" class="verdict-badge">🔴 NE PAS OUVRIR</div>
+      <div id="verdict-desc" class="verdict-desc">L'air extérieur est trop humide pour favoriser le séchage.</div>
+    </div>
+
+    <div class="explanation">
+      💡 <strong>Principe :</strong> Pour sécher le chaux-chanvre, le point de rosée extérieur doit être plus bas que le point de rosée intérieur. Cela garantit que l'air entrant contient moins d'eau en masse absolue et pourra absorber l'humidité.
+    </div>
+  </main>
+
+  <script>
+    function calculateDewPoint(temp, hum) {
+      if (isNaN(temp) || isNaN(hum) || hum <= 0 || hum > 100) return null;
+      const a = 17.27;
+      const b = 237.7;
+      const alpha = ((a * temp) / (b + temp)) + Math.log(hum / 100);
+      const dewPoint = (b * alpha) / (a - alpha);
+      return Math.round(dewPoint * 10) / 10;
+    }
+
+    function updateCalculations() {
+      const tempIn = parseFloat(document.getElementById('temp-in').value);
+      const humIn = parseFloat(document.getElementById('hum-in').value);
+      const tempOut = parseFloat(document.getElementById('temp-out').value);
+      const humOut = parseFloat(document.getElementById('hum-out').value);
+
+      const dpIn = calculateDewPoint(tempIn, humIn);
+      const dpOut = calculateDewPoint(tempOut, humOut);
+
+      const dpInEl = document.getElementById('dp-in-val');
+      const dpOutEl = document.getElementById('dp-out-val');
+      const verdictBox = document.getElementById('verdict-box');
+      const verdictBadge = document.getElementById('verdict-badge');
+      const verdictDesc = document.getElementById('verdict-desc');
+
+      dpInEl.textContent = dpIn !== null ? dpIn.toFixed(1) + ' °C' : '-- °C';
+      dpOutEl.textContent = dpOut !== null ? dpOut.toFixed(1) + ' °C' : '-- °C';
+
+      if (dpIn === null || dpOut === null) {
+        verdictBox.className = 'verdict-card warn';
+        verdictBadge.textContent = '⚠️ DONNÉES INCOMPLÈTES';
+        verdictDesc.textContent = 'Veuillez saisir des valeurs valides pour calculer le résultat.';
+        return;
+      }
+
+      const diff = dpIn - dpOut;
+
+      if (diff > 2) {
+        verdictBox.className = 'verdict-card ok';
+        verdictBadge.textContent = '🟢 OUVRIR / AÉRER';
+        verdictDesc.textContent = `L'air extérieur est nettement plus sec (${dpOut.toFixed(1)}°C vs ${dpIn.toFixed(1)}°C). Aération très bénéfique pour le séchage.`;
+      } else if (diff >= 0 && diff <= 2) {
+        verdictBox.className = 'verdict-card warn';
+        verdictBadge.textContent = '🟠 PRUDENCE';
+        verdictDesc.textContent = `L'air extérieur est légèrement plus sec, mais le gain sera faible (${dpOut.toFixed(1)}°C vs ${dpIn.toFixed(1)}°C). Aérer sous surveillance.`;
+      } else {
+        verdictBox.className = 'verdict-card danger';
+        verdictBadge.textContent = '🔴 NE PAS OUVRIR';
+        verdictDesc.textContent = `L'air extérieur apporterait de l'humidité supplémentaire (${dpOut.toFixed(1)}°C vs ${dpIn.toFixed(1)}°C). Gardez fermé.`;
+      }
+    }
+
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      input.addEventListener('input', updateCalculations);
+    });
+
+    updateCalculations();
+  </script>
 </body>
 </html>
